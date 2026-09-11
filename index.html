@@ -105,6 +105,38 @@ loadCards();
     e.target.requestFullscreen?.();
   }
 });
+  let startX = 0;
+
+document.addEventListener("touchstart", function(e) {
+  if (document.fullscreenElement) {
+    startX = e.touches[0].clientX;
+  }
+});
+
+document.addEventListener("touchend", function(e) {
+  if (!document.fullscreenElement) return;
+
+  const endX = e.changedTouches[0].clientX;
+  const diff = endX - startX;
+
+  if (Math.abs(diff) < 50) return;
+
+  const images = Array.from(document.querySelectorAll(".card img"));
+  const current = document.fullscreenElement;
+  const index = images.indexOf(current);
+
+  let nextIndex;
+
+  if (diff < 0) {
+    nextIndex = (index + 1) % images.length;
+  } else {
+    nextIndex = (index - 1 + images.length) % images.length;
+  }
+
+  document.exitFullscreen().then(() => {
+    images[nextIndex].requestFullscreen();
+  });
+});
 </script>
 
 </body>
