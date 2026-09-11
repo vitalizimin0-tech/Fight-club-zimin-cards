@@ -133,9 +133,7 @@ document.addEventListener("touchend", function(e) {
     nextIndex = (index - 1 + images.length) % images.length;
   }
 
-  document.exitFullscreen().then(() => {
-    images[nextIndex].requestFullscreen();
-  });
+current.src = images[nextIndex].src;
 });
 </script>
 
